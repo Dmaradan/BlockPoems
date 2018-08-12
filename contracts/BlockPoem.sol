@@ -1,5 +1,18 @@
 pragma solidity ^0.4.24;
 
+contract BlockPoemFactory {
+    address[] public deployedPoems;
+
+    function createPoem(string _text) public {
+        address newPoem = new BlockPoem(_text);
+        deployedPoems.push(newPoem);
+    }
+
+    function getDeployedPoems() public view returns (address[]) {
+        return deployedPoems;
+    }
+}
+
 contract BlockPoem {
   string public poem;
   string public extraMessage;
@@ -23,7 +36,12 @@ contract BlockPoem {
     _;
   }
 
-  constructor(string _thePoem) {
+  modifier notFan() {
+    require(fans[msg.sender] == false);
+    _;
+  }
+
+  constructor(string _thePoem) public {
     poem = _thePoem;
     writer = msg.sender;
   }
@@ -32,8 +50,7 @@ contract BlockPoem {
     extraMessage = _extraMessage;
   }
 
-  function like() notOwner public {
-    require(fans[msg.sender] = false);
+  function like() notOwner notFan public {
     fans[msg.sender] = true;
     numberOfLikes += 1;
   }
