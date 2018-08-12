@@ -3,8 +3,8 @@ pragma solidity ^0.4.24;
 contract BlockPoemFactory {
     address[] public deployedPoems;
 
-    function createPoem(string _text) public {
-        address newPoem = new BlockPoem(_text);
+    function createPoem(string _text, address _writer) public {
+        address newPoem = new BlockPoem(_text, _writer);
         deployedPoems.push(newPoem);
     }
 
@@ -41,9 +41,12 @@ contract BlockPoem {
     _;
   }
 
-  constructor(string _thePoem) public {
+  constructor(string _thePoem, address _theWriter) public {
     poem = _thePoem;
-    writer = msg.sender;
+    writer = _theWriter;
+
+    // I didn't use msg.sender here because a factory contract is sender, not
+    // the writer
   }
 
   function addMessage(string _extraMessage) onlyOwner public {
