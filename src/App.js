@@ -7,12 +7,14 @@ import "./css/open-sans.css";
 import "./css/pure-min.css";
 import "./App.css";
 
+import { Card, Button, Form, Input } from "semantic-ui-react";
+
 class App extends Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      storageValue: 0,
+      poems: [],
       web3: null
     };
   }
@@ -54,6 +56,8 @@ class App extends Component {
     this.state.web3.eth.getAccounts((error, accounts) => {
       blockPoem.deployed().then(instance => {
         blockPoemInstance = instance;
+
+        // Get the Poems
       });
     });
   }
@@ -61,9 +65,13 @@ class App extends Component {
   render() {
     return (
       <div className="App">
+        <link
+          rel="stylesheet"
+          href="//cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.3.3/semantic.min.css"
+        />
         <nav className="navbar pure-menu pure-menu-horizontal">
           <a href="#" className="pure-menu-heading pure-menu-link">
-            Truffle Box
+            Block Poems
           </a>
         </nav>
 
@@ -71,6 +79,12 @@ class App extends Component {
           <div className="pure-g">
             <div className="pure-u-1-1">
               <h1>Good to Go!</h1>
+              <Form>
+                <Form.Field>
+                  <label>Your Poem</label>
+                  <Input value="" />
+                </Form.Field>
+              </Form>
               <p>Your Truffle Box is installed and ready.</p>
               <h2>Smart Contract Example</h2>
             </div>
