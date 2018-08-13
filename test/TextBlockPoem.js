@@ -11,13 +11,16 @@ contract("BlockPoemFactory", async function() {
 
     console.log(accounts);
 
-    instance.createPoem(
+    await instance.createPoem(
       "this is a poem",
-      "0x4a103325DA40c09A6fFFc16dDb52535AB15881b7",
-      { from: accounts[0] }
+      "0x4a103325DA40c09A6fFFc16dDb52535AB15881b7"
     );
 
     let poems = await instance.getDeployedPoems.call({ from: accounts[0] });
+
+    console.log("poems: ");
+    console.log(poems);
+
     let expectedLength = 1;
 
     assert.equal(poems.length, expectedLength, "There should be 1 poem");
