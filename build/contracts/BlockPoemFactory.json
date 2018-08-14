@@ -972,13 +972,13 @@
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
   "networks": {
-    "1534190899836": {
+    "1534282373043": {
       "events": {},
       "links": {},
-      "address": "0x419f2f2a2fa595e389ac78e3b48e9708be81f4d9",
-      "transactionHash": "0x70cec058b4e12bd91b562406778410ffd6654a3ced2e5303fa658b732405b8dd"
+      "address": "0x83057eae22335bd444f6110bee8affa9ca862486",
+      "transactionHash": "0xb12fcc74ba4194f6ca515d5439306a4bca15b7b8739c14ba7c07c399c759f6e1"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-08-13T20:09:16.225Z"
+  "updatedAt": "2018-08-14T21:52:06.643Z"
 }

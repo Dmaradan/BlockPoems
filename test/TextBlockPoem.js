@@ -21,9 +21,6 @@ contract("BlockPoemFactory", async function() {
     let poems = await instance.getDeployedPoems.call({ from: accounts[0] });
     poemAddress = poems[0];
 
-    console.log("poems: ");
-    console.log(poems);
-
     let expectedLength = 1;
 
     assert.equal(poems.length, expectedLength, "There should be 1 poem");
@@ -34,7 +31,6 @@ contract("BlockPoemFactory", async function() {
     let accounts = await web3.eth.getAccounts();
     let firstAccount = accounts[0];
     const poemInstance = await BlockPoem.at(poemAddress);
-    //let poemInstance = new BlockPoem(poemAddress);
 
     console.log("firstAccount: " + firstAccount);
     //console.log(web3.eth.getBalance(firstAccount));
@@ -47,5 +43,35 @@ contract("BlockPoemFactory", async function() {
     console.log(message);
 
     assert.ok(message);
+  });
+
+  it("should prevent others from adding extra message", async function() {
+    let instance = await BlockPoemFactory.deployed();
+    let accounts = await web3.eth.getAccounts();
+    let secondAccount = accounts[1];
+    const poemInstance = await BlockPoem.at(poemAddress);
+
+    const secondMessage = "This is the second message";
+
+    console.log("secondAccount: " + secondAccount);
+
+    // We want this to fail because second account is not the writer
+    try {
+      await poemInstance.addMessage(secondMessage, {
+        from: secondAccount
+      });
+      assert(false);
+    } catch (err) {
+      assert(true);
+    }
+
+    // let message = await poemInstance.extraMessage.call();
+    //
+    // console.log("stored message: " + message);
+    //
+    // const firstMessageHash = keccak256(message);
+    // const secondMessageHash = keccak256(secondMessage);
+    //
+    // assert.notEqual(firstMessageHash, secondMessageHash);
   });
 });
