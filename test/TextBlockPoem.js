@@ -4,9 +4,9 @@ const ganache = require("ganache-cli");
 const Web3 = require("web3");
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
-contract("BlockPoemFactory", async function() {
-  let poemAddress;
+let poemAddress;
 
+contract("BlockPoemFactory", function() {
   it("should create a poem", async function() {
     let instance = await BlockPoemFactory.deployed();
     let accounts = await web3.eth.getAccounts();
@@ -25,7 +25,9 @@ contract("BlockPoemFactory", async function() {
 
     assert.equal(poems.length, expectedLength, "There should be 1 poem");
   });
+});
 
+describe("BlockPoem", function() {
   it("should let writer add extra message", async function() {
     let instance = await BlockPoemFactory.deployed();
     let accounts = await web3.eth.getAccounts();
@@ -64,14 +66,5 @@ contract("BlockPoemFactory", async function() {
     } catch (err) {
       assert(true);
     }
-
-    // let message = await poemInstance.extraMessage.call();
-    //
-    // console.log("stored message: " + message);
-    //
-    // const firstMessageHash = keccak256(message);
-    // const secondMessageHash = keccak256(secondMessage);
-    //
-    // assert.notEqual(firstMessageHash, secondMessageHash);
   });
 });
