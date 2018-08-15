@@ -39,6 +39,10 @@ contract BlockPoem {
     // the writer
   }
 
+  function verifyOwner() onlyOwner public view returns (address) {
+    return writer;
+  }
+
   function addMessage(string _extraMessage) onlyOwner public {
     extraMessage = _extraMessage;
   }

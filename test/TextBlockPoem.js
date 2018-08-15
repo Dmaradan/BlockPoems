@@ -5,6 +5,7 @@ const Web3 = require("web3");
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 let poemAddress;
+let poemText;
 let accounts;
 let firstAccount;
 let secondAccount;
@@ -18,8 +19,9 @@ beforeEach(async () => {
 contract("BlockPoemFactory", function() {
   it("should create a poem", async function() {
     let instance = await BlockPoemFactory.deployed();
+    poemText = "This is a great poem about decentralization";
 
-    await instance.createPoem("this is a poem", firstAccount);
+    await instance.createPoem(poemText, firstAccount);
 
     let poems = await instance.getDeployedPoems.call({ from: accounts[0] });
     poemAddress = poems[0];
@@ -28,18 +30,61 @@ contract("BlockPoemFactory", function() {
 
     assert.equal(poems.length, expectedLength, "There should be 1 poem");
   });
+
+  it("should set correct poem text after creation", async function() {
+    const poemInstance = await BlockPoem.at(poemAddress);
+
+    const expectedText = poemText;
+
+    let actualText = await poemInstance.poem.call();
+
+    assert.equal(actualText, expectedText);
+  });
+
+  it("should set correct owner upon creation", async function() {
+    const poemInstance = await BlockPoem.at(poemAddress);
+    let poemOwner;
+
+    poemOwner = await poemInstance.verifyOwner.call({ from: firstAccount });
+
+    let lowerCaseFirstAccount = firstAccount.toLowerCase();
+    assert.equal(poemOwner, lowerCaseFirstAccount);
+  });
+
+  it("should store multiple poems", async function() {
+    let instance = await BlockPoemFactory.deployed();
+    let secondPoemText = "An epic about Dogecoin";
+
+    await instance.createPoem(secondPoemText, secondAccount);
+
+    let poems = await instance.getDeployedPoems.call();
+
+    let expectedLength = 2;
+
+    assert.equal(poems.length, expectedLength);
+  });
 });
 
 describe("BlockPoem", function() {
+  it("should prevent other accounts from retrieving writer account", async function() {
+    const poemInstance = await BlockPoem.at(poemAddress);
+
+    try {
+      await poemInstance.verifyOwner.call({ from: secondAccount });
+      assert(false);
+    } catch (err) {
+      assert(true);
+    }
+  });
+
   it("should let writer add extra message", async function() {
     const poemInstance = await BlockPoem.at(poemAddress);
 
-    await poemInstance.addMessage("this is an extra message noice", {
+    await poemInstance.addMessage("this is an extra message", {
       from: firstAccount
     });
 
     let message = await poemInstance.extraMessage.call();
-    console.log(message);
 
     assert.ok(message);
   });
