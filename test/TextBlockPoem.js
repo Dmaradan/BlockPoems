@@ -5,12 +5,19 @@ const Web3 = require("web3");
 const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 let poemAddress;
+let accounts;
+let firstAccount;
+let secondAccount;
+
+beforeEach(async () => {
+  accounts = await web3.eth.getAccounts();
+  firstAccount = accounts[0];
+  secondAccount = accounts[1];
+});
 
 contract("BlockPoemFactory", function() {
   it("should create a poem", async function() {
     let instance = await BlockPoemFactory.deployed();
-    let accounts = await web3.eth.getAccounts();
-    let firstAccount = accounts[0];
 
     await instance.createPoem("this is a poem", firstAccount);
 
@@ -25,8 +32,6 @@ contract("BlockPoemFactory", function() {
 
 describe("BlockPoem", function() {
   it("should let writer add extra message", async function() {
-    let accounts = await web3.eth.getAccounts();
-    let firstAccount = accounts[0];
     const poemInstance = await BlockPoem.at(poemAddress);
 
     await poemInstance.addMessage("this is an extra message noice", {
@@ -40,8 +45,6 @@ describe("BlockPoem", function() {
   });
 
   it("should prevent others from adding extra message", async function() {
-    let accounts = await web3.eth.getAccounts();
-    let secondAccount = accounts[1];
     const poemInstance = await BlockPoem.at(poemAddress);
 
     const secondMessage = "This is the second message";
@@ -58,8 +61,6 @@ describe("BlockPoem", function() {
   });
 
   it("should let others like a poem", async function() {
-    let accounts = await web3.eth.getAccounts();
-    let secondAccount = accounts[1];
     const poemInstance = await BlockPoem.at(poemAddress);
 
     await poemInstance.like({ from: secondAccount });
@@ -72,8 +73,6 @@ describe("BlockPoem", function() {
   });
 
   it("should prevent an account from liking a poem more than once", async function() {
-    let accounts = await web3.eth.getAccounts();
-    let secondAccount = accounts[1];
     const poemInstance = await BlockPoem.at(poemAddress);
 
     try {
@@ -85,8 +84,6 @@ describe("BlockPoem", function() {
   });
 
   it("should prevent the writer from liking their own poem", async function() {
-    let accounts = await web3.eth.getAccounts();
-    let firstAccount = accounts[0];
     const poemInstance = await BlockPoem.at(poemAddress);
 
     try {
