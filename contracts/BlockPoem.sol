@@ -4,6 +4,7 @@ contract BlockPoem {
   string public poem;
   string public extraMessage;
   uint public numberOfLikes;
+  uint private minimumDonation;
 
   address private writer;
   mapping(address => bool) private fans;
@@ -31,6 +32,8 @@ contract BlockPoem {
   constructor(string _thePoem, address _theWriter) public {
     poem = _thePoem;
     writer = _theWriter;
+    //this uint, denominated in wei, is .0001 ether
+    minimumDonation = 100000000000000;
 
     // I didn't use msg.sender here because a factory contract is sender, not
     // the writer
@@ -46,6 +49,7 @@ contract BlockPoem {
   }
 
   function donate() public payable {
+    require(msg.value >= minimumDonation);
     writer.transfer(msg.value);
   }
 }

@@ -93,4 +93,31 @@ describe("BlockPoem", function() {
       assert(true);
     }
   });
+
+  it("accepts donations", async function() {
+    const poemInstance = await BlockPoem.at(poemAddress);
+    let balance = await web3.eth.getBalance(firstAccount);
+    let weiToDonate = "100000000000000";
+
+    let secondAccountBalance = await web3.eth.getBalance(secondAccount);
+
+    try {
+      await poemInstance.donate({ value: weiToDonate, from: secondAccount });
+    } catch (err) {
+      console.log("You probably sent less wei than minimumDonation value");
+      assert(false);
+    }
+
+    secondAccountBalance = await web3.eth.getBalance(secondAccount);
+
+    let newBalance = await web3.eth.getBalance(firstAccount);
+    newBalance = web3.utils.fromWei(newBalance, "ether");
+    newBalance = parseFloat(newBalance);
+
+    balance = web3.utils.fromWei(balance, "ether");
+    balance = parseFloat(balance);
+    weiToDonate = parseFloat(weiToDonate);
+
+    assert.isAbove(newBalance, balance);
+  });
 });
