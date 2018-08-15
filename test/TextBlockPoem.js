@@ -6,6 +6,7 @@ const web3 = new Web3(new Web3.providers.HttpProvider("http://localhost:8545"));
 
 let poemAddress;
 let poemText;
+let secondPoemText;
 let accounts;
 let firstAccount;
 let secondAccount;
@@ -53,7 +54,7 @@ contract("BlockPoemFactory", function() {
 
   it("should store multiple poems", async function() {
     let instance = await BlockPoemFactory.deployed();
-    let secondPoemText = "An epic about Dogecoin";
+    secondPoemText = "An epic about Dogecoin";
 
     await instance.createPoem(secondPoemText, secondAccount);
 
@@ -62,6 +63,16 @@ contract("BlockPoemFactory", function() {
     let expectedLength = 2;
 
     assert.equal(poems.length, expectedLength);
+  });
+
+  it("should be able to retrieve specific poem with public getter and index", async function() {
+    let instance = await BlockPoemFactory.deployed();
+    let retrievedPoemAddress = await instance.deployedPoems.call(1);
+    let retrievedPoemInstance = await BlockPoem.at(retrievedPoemAddress);
+
+    let retrievedPoemText = await retrievedPoemInstance.poem.call();
+
+    assert.equal(retrievedPoemText, secondPoemText);
   });
 });
 
