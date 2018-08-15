@@ -17,6 +17,10 @@ beforeEach(async () => {
   secondAccount = accounts[1];
 });
 
+/* The following tests make sure that the factory contract is correctly initializing
+  and storing poems that users write. It's important that the factory doesn't assign
+  itself as the owner, for example */
+
 contract("BlockPoemFactory", function() {
   it("should create a poem", async function() {
     let instance = await BlockPoemFactory.deployed();
@@ -75,6 +79,11 @@ contract("BlockPoemFactory", function() {
     assert.equal(retrievedPoemText, secondPoemText);
   });
 });
+
+/* The following tests make sure that writers have privacy and control of their
+  poem, and that they cannot like their own poems. They also make sure that other users
+  are able to like and donate ether, which is the incentive writers have to post their
+  work */
 
 describe("BlockPoem", function() {
   it("should prevent other accounts from retrieving writer account", async function() {
