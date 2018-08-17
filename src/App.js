@@ -17,7 +17,9 @@ class App extends Component {
     this.state = {
       poem: "",
       web3: null,
-      poemHashDict: {}
+      errorMessage: "",
+      poemHashDict: {},
+      poems: []
     };
   }
 
@@ -62,12 +64,29 @@ class App extends Component {
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      blockPoemFactory.deployed().then(instance => {
-        blockPoemFactoryInstance = instance;
+      blockPoemFactory.deployed().then(
+        instance =>
+          async function() {
+            blockPoemFactoryInstance = instance;
 
-        // Get the Poems
-      });
+            // Get the Poems
+            const poems = await blockPoemFactoryInstance.methods.getDeployedPoems.call();
+            this.setState({ poems: poems });
+          }
+      );
     });
+  }
+
+  renderPoems() {
+    const items = this.state.poems.map(address => {
+      return {
+        header: address,
+        description: <a>View Campaign</a>,
+        fluid: true
+      };
+    });
+
+    return <Card.Group items={items} />;
   }
 
   render() {
@@ -106,8 +125,9 @@ class App extends Component {
                   />
                 </Form.Field>
               </Form>
-              <p>Your Truffle Box is installed and ready.</p>
-              <h2>Smart Contract Example</h2>
+              <p>Give it some text</p>
+              <h2>Poem List</h2>
+              {this.renderPoems()}
             </div>
           </div>
         </main>
