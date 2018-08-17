@@ -43,7 +43,7 @@ class App extends Component {
       /* need to hash poem text for better storage on blockchain */
       console.log(this.state.factory);
 
-      await this.state.factory.methods.createPoem(this.state.hash, accounts[0]);
+      await this.state.factory.createPoem(this.state.hash, accounts[0]);
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
@@ -62,6 +62,7 @@ class App extends Component {
         });
 
         // Instantiate contract once web3 provided.
+        console.log("instantiating contract");
         this.instantiateContract();
       })
       .catch(() => {
@@ -76,7 +77,7 @@ class App extends Component {
      * Normally these functions would be called in the context of a
      * state management library, but for convenience I've placed them here.
      */
-
+    console.log("step 1");
     const contract = require("truffle-contract");
     const blockPoemFactory = contract(BlockPoemFactory);
 
@@ -84,19 +85,25 @@ class App extends Component {
 
     // Declaring this for later so we can chain functions on BlockPoem.
     let blockPoemFactoryInstance;
+    console.log("step 2");
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      blockPoemFactory.deployed().then(
-        instance =>
-          async function() {
-            blockPoemFactoryInstance = instance;
+      console.log("step 3");
+      blockPoemFactory.deployed().then(instance => {
+        console.log("step 4");
+        blockPoemFactoryInstance = instance;
+        console.log("instance: " + blockPoemFactoryInstance);
 
-            // Get the Poems
-            const poems = await blockPoemFactoryInstance.methods.getDeployedPoems.call();
-            this.setState({ poems: poems, factory: blockPoemFactoryInstance });
-          }
-      );
+        // Get the Poems
+        //const poems = this.retrievePoems(blockPoemFactoryInstance);
+        //const poems = ["1"];
+
+        blockPoemFactoryInstance.getDeployedPoems().then(poems => {
+          console.log("step 5");
+          this.setState({ poems: poems, factory: blockPoemFactoryInstance });
+        });
+      });
     });
   }
 
