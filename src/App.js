@@ -1,5 +1,6 @@
 import React, { Component } from "react";
-import BlockPoemContract from "../build/contracts/BlockPoem.json";
+import sha256 from "crypto-js/sha256";
+import BlockPoemFactory from "../build/contracts/BlockPoemFactory.json";
 import getWeb3 from "./utils/getWeb3";
 
 import "./css/oswald.css";
@@ -15,8 +16,15 @@ class App extends Component {
 
     this.state = {
       poems: [],
-      web3: null
+      web3: null,
+      poemHashDict: {}
     };
+  }
+
+  /* Used for hashing poems and their extra messages */
+  hashString256(text) {
+    let hash = sha256.SHA256(text);
+    return hash;
   }
 
   componentWillMount() {
@@ -46,16 +54,16 @@ class App extends Component {
      */
 
     const contract = require("truffle-contract");
-    const blockPoem = contract(BlockPoemContract);
-    blockPoem.setProvider(this.state.web3.currentProvider);
+    const blockPoemFactory = contract(BlockPoemFactory);
+    blockPoemFactory.setProvider(this.state.web3.currentProvider);
 
     // Declaring this for later so we can chain functions on BlockPoem.
-    var blockPoemInstance;
+    var blockPoemFactoryInstance;
 
     // Get accounts.
     this.state.web3.eth.getAccounts((error, accounts) => {
-      blockPoem.deployed().then(instance => {
-        blockPoemInstance = instance;
+      blockPoemFactory.deployed().then(instance => {
+        blockPoemFactoryInstance = instance;
 
         // Get the Poems
       });
