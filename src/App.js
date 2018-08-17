@@ -15,7 +15,7 @@ class App extends Component {
     super(props);
 
     this.state = {
-      poems: [],
+      poem: "",
       web3: null,
       poemHashDict: {}
     };
@@ -90,7 +90,20 @@ class App extends Component {
               <Form>
                 <Form.Field>
                   <label>Your Poem</label>
-                  <Input value="" />
+                  <Input
+                    value={this.state.poem}
+                    onChange={event => {
+                      let dictCopy = JSON.parse(
+                        JSON.stringify(this.state.poemHashDict)
+                      );
+                      let hash = this.hashString256(event.target.value);
+                      dictCopy[hash] = event.target.value;
+                      this.setState({
+                        poem: event.target.value,
+                        poemHashDict: dictCopy
+                      });
+                    }}
+                  />
                 </Form.Field>
               </Form>
               <p>Your Truffle Box is installed and ready.</p>
