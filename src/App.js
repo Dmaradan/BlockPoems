@@ -28,7 +28,7 @@ class App extends Component {
 
   /* Used for hashing poems and their extra messages */
   hashString256(text) {
-    let hash = CryptoJS.SHA256(text);
+    let hash = CryptoJS.SHA256(text).toString();
     return hash;
   }
 
@@ -38,12 +38,23 @@ class App extends Component {
     this.setState({ errorMessage: "", loading: true });
 
     try {
-      const accounts = this.state.web3.eth.getAccounts();
+      const accounts = await this.state.web3.eth.getAccounts();
+
+      console.log("accounts: " + accounts);
 
       /* need to hash poem text for better storage on blockchain */
       console.log(this.state.factory);
+      console.log("hash: " + this.state.hash);
+      console.log("type of hash: " + typeof this.state.hash);
+      console.log("type of account: " + typeof accounts[1]);
 
-      await this.state.factory.createPoem(this.state.hash, accounts[0]);
+      await this.state.factory.createPoem(this.state.hash, accounts[1], {
+        from: accounts[1],
+        gas: 2200000
+      });
+
+      let poems = await this.state.factory.getDeployedPoems.call();
+      console.log(poems);
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
