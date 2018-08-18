@@ -971,56 +971,7 @@
     "name": "solc",
     "version": "0.4.24+commit.e67f0147.Emscripten.clang"
   },
-  "networks": {
-    "1534588303249": {
-      "events": {},
-      "links": {},
-      "address": "0xae55debeed749156a0fa360faeeb7e61ee9090a9",
-      "transactionHash": "0x6fb58d598bdaae157c7ddbfe08255956ca641e5b15b2ae23dc064e1717bbaf60"
-    },
-    "1534591725586": {
-      "events": {},
-      "links": {},
-      "address": "0x75ea1c2858fbaa3911054cdf52934b059ef2971b",
-      "transactionHash": "0x6fb58d598bdaae157c7ddbfe08255956ca641e5b15b2ae23dc064e1717bbaf60"
-    },
-    "1534593048909": {
-      "events": {},
-      "links": {},
-      "address": "0x00524aa5aac67324aa76a3df6a0484a3e76ada44",
-      "transactionHash": "0x6fb58d598bdaae157c7ddbfe08255956ca641e5b15b2ae23dc064e1717bbaf60"
-    },
-    "1534593515739": {
-      "events": {},
-      "links": {},
-      "address": "0x1d8d22c989674a9074bf3184f237bd28e2253777",
-      "transactionHash": "0x6fb58d598bdaae157c7ddbfe08255956ca641e5b15b2ae23dc064e1717bbaf60"
-    },
-    "1534596025504": {
-      "events": {},
-      "links": {},
-      "address": "0x8c1e9091f128ac1a74e67d7d2d3179e7e4c19ab0",
-      "transactionHash": "0x6fb58d598bdaae157c7ddbfe08255956ca641e5b15b2ae23dc064e1717bbaf60"
-    },
-    "1534600259991": {
-      "events": {},
-      "links": {},
-      "address": "0xcc6448926055bd875d0107ad0b84c63f74af9a64",
-      "transactionHash": "0x49cea22582554f83367e636cfe1a5413b158b875564e6a8f45d7c1909626f654"
-    },
-    "1534603064020": {
-      "events": {},
-      "links": {},
-      "address": "0x574e29bd9fa1cdf91c450bcefec6b389ade04c99",
-      "transactionHash": "0x6fb58d598bdaae157c7ddbfe08255956ca641e5b15b2ae23dc064e1717bbaf60"
-    },
-    "1534607873854": {
-      "events": {},
-      "links": {},
-      "address": "0x1ce2fd80431bcb0f568eaaaaf10257832ec24cfb",
-      "transactionHash": "0x72c085d49087fda7d1789baef9a2a71fa6c9197d6afec71be6e786afa216016b"
-    }
-  },
+  "networks": {},
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-08-18T16:12:05.210Z"
+  "updatedAt": "2018-08-18T16:47:22.310Z"
 }
