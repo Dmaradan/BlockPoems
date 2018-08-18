@@ -123,12 +123,11 @@ class App extends Component {
 
   renderPoems() {
     const items = this.state.poems.map(address => {
+      console.log("address in map: " + address);
       return {
         header: address,
         description: (
-          <Button onClick={address => this.showDetail(address)}>
-            View Poem
-          </Button>
+          <Button onClick={() => this.showDetail(address)}>View Poem</Button>
         ),
         fluid: true
       };
@@ -144,6 +143,9 @@ class App extends Component {
 
     const selectedPoem = blockPoem.at(address);
     const storedHash = await selectedPoem.poem.call();
+
+    console.log("storedHash: " + storedHash);
+
     const poemText = this.state.poemHashDict[storedHash];
     console.log("the poem text is: " + poemText);
   }
