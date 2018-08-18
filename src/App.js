@@ -1,7 +1,9 @@
 import React, { Component } from "react";
 import CryptoJS from "crypto-js";
 import BlockPoemFactory from "../build/contracts/BlockPoemFactory.json";
+import BlockPoem from "../build/contracts/BlockPoem.json";
 import getWeb3 from "./utils/getWeb3";
+import contract from "truffle-contract";
 
 import "./css/oswald.css";
 import "./css/open-sans.css";
@@ -60,6 +62,7 @@ class App extends Component {
     }
 
     this.setState({ loading: false });
+    location.reload();
   };
 
   componentWillMount() {
@@ -122,12 +125,27 @@ class App extends Component {
     const items = this.state.poems.map(address => {
       return {
         header: address,
-        description: <a>View Campaign</a>,
+        description: (
+          <Button onClick={address => this.showDetail(address)}>
+            View Poem
+          </Button>
+        ),
         fluid: true
       };
     });
 
     return <Card.Group items={items} />;
+  }
+
+  async showDetail(address) {
+    const contract = require("truffle-contract");
+    const blockPoem = contract(BlockPoem);
+    blockPoem.setProvider(this.state.web3.currentProvider);
+
+    const selectedPoem = blockPoem.at(address);
+    const storedHash = await selectedPoem.poem.call();
+    const poemText = this.state.poemHashDict[storedHash];
+    console.log("the poem text is: " + poemText);
   }
 
   render() {
