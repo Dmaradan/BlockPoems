@@ -24,6 +24,7 @@ class App extends Component {
     this.state = {
       account: "",
       poem: "",
+      donationStatus: "",
       hash: "",
       web3: null,
       errorMessage: "",
@@ -178,7 +179,7 @@ class App extends Component {
     } catch (err) {
       this.setState({ errorMessage: err.message });
     }
-    this.setState({ loading: false });
+    this.setState({ donationStatus: "Donation successful!", loading: false });
   }
 
   async showDetail(address) {
@@ -195,7 +196,7 @@ class App extends Component {
 
     // const poemText = this.poemHashDict[storedHash];
     console.log("the poem text is: " + storedPoem);
-    this.setState({ poem: storedPoem });
+    this.setState({ donationStatus: "", poem: storedPoem });
   }
 
   render() {
@@ -233,7 +234,8 @@ class App extends Component {
 
                       this.setState({
                         poem: event.target.value,
-                        hash: hash
+                        hash: hash,
+                        donationStatus: ""
                       });
                     }}
                   />
@@ -252,6 +254,7 @@ class App extends Component {
               {this.renderPoems()}
               <p />
               <h3>{this.state.poem}</h3>
+              <h3>{this.state.donationStatus}</h3>
             </div>
           </div>
         </main>
