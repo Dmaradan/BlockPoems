@@ -209,7 +209,9 @@ class App extends Component {
         <main className="container">
           <div className="pure-g">
             <div className="pure-u-1-1">
-              <h1>Good to Go!</h1>
+              <h1>
+                These are poems on your Ganache blockchain. Pretty neat hmm?
+              </h1>
               <Form onSubmit={this.onCreate} error={!!this.state.errorMessage}>
                 <Form.Field>
                   <label>Your Poem</label>
