@@ -53,7 +53,7 @@ class App extends Component {
       console.log("type of hash: " + typeof this.state.hash);
       console.log("type of account: " + typeof accounts[1]);
 
-      await this.state.factory.createPoem(this.state.hash, accounts[1], {
+      await this.state.factory.createPoem(this.state.poem, accounts[1], {
         from: accounts[1],
         gas: 2200000
       });
@@ -66,18 +66,13 @@ class App extends Component {
 
     /* Update the hash dictionary */
     //let dictCopy = JSON.parse(JSON.stringify(this.poemHashDict));
-    this.poemHashDict[this.state.hash] = this.state.poem;
+    //this.poemHashDict[this.state.hash] = this.state.poem;
     // setter
-    localStorage.setItem("storedPoemHashDict", this.poemHashDict);
+    //localStorage.setItem("storedPoemHashDict", this.poemHashDict);
 
     this.setState({ loading: false });
 
-    console.log(
-      "persisting dict keys after updating state: " +
-        Object.keys(this.poemHashDict)
-    );
-
-    //location.reload();
+    location.reload();
   };
 
   componentWillMount() {
@@ -156,14 +151,14 @@ class App extends Component {
     blockPoem.setProvider(this.state.web3.currentProvider);
 
     const selectedPoem = blockPoem.at(address);
-    const storedHash = await selectedPoem.poem.call();
+    const storedPoem = await selectedPoem.poem.call();
 
-    console.log("storedHash: " + storedHash);
-    console.log("type of storedHash: " + typeof storedHash);
-    console.log("hashDict keys: " + Object.keys(this.poemHashDict));
+    // console.log("storedHash: " + storedHash);
+    // console.log("type of storedHash: " + typeof storedHash);
+    // console.log("hashDict keys: " + Object.keys(this.poemHashDict));
 
-    const poemText = this.poemHashDict[storedHash];
-    console.log("the poem text is: " + poemText);
+    // const poemText = this.poemHashDict[storedHash];
+    console.log("the poem text is: " + storedPoem);
   }
 
   render() {
