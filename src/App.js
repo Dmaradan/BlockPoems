@@ -22,6 +22,7 @@ class App extends Component {
     );
 
     this.state = {
+      account: "",
       poem: "",
       hash: "",
       web3: null,
@@ -125,7 +126,11 @@ class App extends Component {
 
         blockPoemFactoryInstance.getDeployedPoems().then(poems => {
           console.log("step 5");
-          this.setState({ poems: poems, factory: blockPoemFactoryInstance });
+          this.setState({
+            account: accounts[0],
+            poems: poems,
+            factory: blockPoemFactoryInstance
+          });
         });
       });
     });
@@ -212,6 +217,7 @@ class App extends Component {
               <h1>
                 These are poems on your Ganache blockchain. Pretty neat hmm?
               </h1>
+              <p>You are using account: {this.state.account}</p>
               <Form onSubmit={this.onCreate} error={!!this.state.errorMessage}>
                 <Form.Field>
                   <label>Your Poem</label>
