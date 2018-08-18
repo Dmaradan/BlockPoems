@@ -16,6 +16,11 @@ class App extends Component {
   constructor(props) {
     super(props);
 
+    this.poemHashDict = localStorage.getItem(
+      "storedPoemHashDict",
+      this.poemHashDict
+    );
+
     this.state = {
       poem: "",
       hash: "",
@@ -42,8 +47,6 @@ class App extends Component {
     try {
       const accounts = await this.state.web3.eth.getAccounts();
 
-      console.log("accounts: " + accounts);
-
       /* need to hash poem text for better storage on blockchain */
       console.log(this.state.factory);
       console.log("hash: " + this.state.hash);
@@ -61,8 +64,20 @@ class App extends Component {
       this.setState({ errorMessage: err.message });
     }
 
+    /* Update the hash dictionary */
+    //let dictCopy = JSON.parse(JSON.stringify(this.poemHashDict));
+    this.poemHashDict[this.state.hash] = this.state.poem;
+    // setter
+    localStorage.setItem("storedPoemHashDict", this.poemHashDict);
+
     this.setState({ loading: false });
-    location.reload();
+
+    console.log(
+      "persisting dict keys after updating state: " +
+        Object.keys(this.poemHashDict)
+    );
+
+    //location.reload();
   };
 
   componentWillMount() {
@@ -123,7 +138,6 @@ class App extends Component {
 
   renderPoems() {
     const items = this.state.poems.map(address => {
-      console.log("address in map: " + address);
       return {
         header: address,
         description: (
@@ -145,8 +159,10 @@ class App extends Component {
     const storedHash = await selectedPoem.poem.call();
 
     console.log("storedHash: " + storedHash);
+    console.log("type of storedHash: " + typeof storedHash);
+    console.log("hashDict keys: " + Object.keys(this.poemHashDict));
 
-    const poemText = this.state.poemHashDict[storedHash];
+    const poemText = this.poemHashDict[storedHash];
     console.log("the poem text is: " + poemText);
   }
 
@@ -173,15 +189,16 @@ class App extends Component {
                   <Input
                     value={this.state.poem}
                     onChange={event => {
-                      let dictCopy = JSON.parse(
-                        JSON.stringify(this.state.poemHashDict)
-                      );
+                      // let dictCopy = JSON.parse(
+                      //   JSON.stringify(this.state.poemHashDict)
+                      // );
+
                       let hash = this.hashString256(event.target.value);
-                      dictCopy[hash] = event.target.value;
+                      //dictCopy[hash] = event.target.value;
+
                       this.setState({
                         poem: event.target.value,
-                        hash: hash,
-                        poemHashDict: dictCopy
+                        hash: hash
                       });
                     }}
                   />
