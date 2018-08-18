@@ -136,13 +136,44 @@ class App extends Component {
       return {
         header: address,
         description: (
-          <Button onClick={() => this.showDetail(address)}>View Poem</Button>
+          <div>
+            <Button onClick={() => this.showDetail(address)}>View Poem</Button>
+
+            <Button onClick={() => this.donate(address)}>
+              Donate .0001 ether
+            </Button>
+          </div>
         ),
         fluid: true
       };
     });
 
     return <Card.Group items={items} />;
+  }
+
+  async donate(address) {
+    const contract = require("truffle-contract");
+    const blockPoem = contract(BlockPoem);
+    blockPoem.setProvider(this.state.web3.currentProvider);
+    const selectedPoem = blockPoem.at(address);
+
+    let donationAmount = this.state.web3.utils.toWei("0.0001", "ether");
+
+    try {
+      const accounts = await this.state.web3.eth.getAccounts();
+      let successfulTx = await selectedPoem.donate({
+        from: accounts[1],
+        value: donationAmount,
+        gas: 2200000
+      });
+
+      console.log("success: " + successfulTx.toString());
+      let balance = await this.state.web3.eth.getBalance(accounts[1]);
+      console.log("balance: " + balance);
+    } catch (err) {
+      this.setState({ errorMessage: err.message });
+    }
+    this.setState({ loading: false });
   }
 
   async showDetail(address) {
@@ -211,7 +242,8 @@ class App extends Component {
               <p>Give it some text</p>
               <h2>Poem List</h2>
               {this.renderPoems()}
-              <p>{this.state.poem}</p>
+              <p />
+              <h3>{this.state.poem}</h3>
             </div>
           </div>
         </main>
