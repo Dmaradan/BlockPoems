@@ -159,6 +159,7 @@ class App extends Component {
 
     // const poemText = this.poemHashDict[storedHash];
     console.log("the poem text is: " + storedPoem);
+    this.setState({ poem: storedPoem });
   }
 
   render() {
@@ -210,6 +211,7 @@ class App extends Component {
               <p>Give it some text</p>
               <h2>Poem List</h2>
               {this.renderPoems()}
+              <p>{this.state.poem}</p>
             </div>
           </div>
         </main>
