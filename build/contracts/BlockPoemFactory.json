@@ -977,8 +977,14 @@
       "links": {},
       "address": "0xfca0fab77444053a719e39810a817f42f929ba2b",
       "transactionHash": "0x3be65b730cbbfb303dd961bafeca79a0e16dfb11f850dd2e1a581293380dba55"
+    },
+    "1534870340839": {
+      "events": {},
+      "links": {},
+      "address": "0x6d137e52a5ff120feee8fa3712a0fdc25a064630",
+      "transactionHash": "0x3be65b730cbbfb303dd961bafeca79a0e16dfb11f850dd2e1a581293380dba55"
     }
   },
   "schemaVersion": "2.0.0",
-  "updatedAt": "2018-08-18T19:23:07.228Z"
+  "updatedAt": "2018-08-21T16:52:40.483Z"
 }

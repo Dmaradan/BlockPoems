@@ -53,6 +53,7 @@
     "dotenv": "^2.0.0",
     "ganache-cli": "^6.1.6",
     "react": "^15.6.2",
+    "react-dom": "^16.4.2",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.2",
     "web3": "^1.0.0-beta.35",
