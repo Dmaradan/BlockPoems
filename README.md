@@ -22,8 +22,9 @@ Setup:
 1.  run "ganache-cli" to start a local ethereum blockchain
 
 2.  in another terminal window, navigate to the BlockPoems directory:
-    a) run "truffle compile"
-    b) run "truffle migrate"
+    a) run "npm install"
+    b) run "truffle compile"
+    c) run "truffle migrate"
 
 3.  run "npm run start" to spin up a server on localhost:3000
 
