@@ -56,7 +56,7 @@
     "react-dom": "^16.4.2",
     "semantic-ui-css": "^2.3.3",
     "semantic-ui-react": "^0.82.2",
-    "web3": "^0.20.1",
+    "web3": "^1.0.0-beta.35",
     "zeppelin-solidity": "1.12.0"
   },
   "scripts": {

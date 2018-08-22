@@ -111,7 +111,7 @@ class App extends Component {
       new Web3.providers.HttpProvider("http://127.0.0.1:8545")
     );
 
-    blockPoemFactory.setProvider(web3.currentProvider);
+    blockPoemFactory.setProvider(this.state.web3.currentProvider);
 
     // Declaring this for later so we can chain functions on BlockPoem.
     let blockPoemFactoryInstance;
@@ -169,7 +169,7 @@ class App extends Component {
       new Web3.providers.HttpProvider("http://127.0.0.1:8545")
     );
 
-    blockPoem.setProvider(web3.currentProvider);
+    blockPoem.setProvider(this.state.web3.currentProvider);
     const selectedPoem = blockPoem.at(address);
 
     let donationAmount = this.state.web3.utils.toWei("0.0001", "ether");
@@ -198,7 +198,7 @@ class App extends Component {
       new Web3.providers.HttpProvider("http://127.0.0.1:8545")
     );
 
-    blockPoem.setProvider(web3.currentProvider);
+    blockPoem.setProvider(this.state.web3.currentProvider);
 
     const selectedPoem = blockPoem.at(address);
     const storedPoem = await selectedPoem.poem.call();
