@@ -1,3 +1,5 @@
+# BlockPoems
+
 This project allows users to write poems, view them, and donate to them on their
 local blockchain.
 
@@ -17,31 +19,69 @@ this in the future.
 There is additional functionality in the BlockPoem contract, like "liking", but
 I have not implemented that in the UI yet.
 
-Setup:
+### Dependencies
 
-1.  run "ganache-cli" to start a local ethereum blockchain
+nodejs
 
-2.  in another terminal window, navigate to the BlockPoems directory:
+ganache-cli
 
-    A) run "npm install"
+truffle
 
-    B) With your text editor, open /node_modules/truffle-contract/contract.js and
-    make the following edit on line 22:
+### Installing
 
-    Provider.prototype.sendAsync = function() {
-    return this.provider.send.apply(this.provider, arguments);
-    };
+Clone the repository
 
-    Instead of
+```
+git clone https://github.com/Dmaradan/BlockPoems.git yourDirectory
+cd yourDirectory
+```
 
-    Provider.prototype.sendAsync = function() {
-    return this.provider.sendAsync.apply(this.provider, arguments);
-    };
+Install packages and make 1 edit
 
-    For some reason, sendAsync is not working properly with this version of web3.
+```
+npm install
+```
 
-    C) Run "truffle compile" and "truffle migrate"
+```
+With your text editor, open /node_modules/truffle-contract/contract.js and
+make the following edit on lines 21-23:
 
-3.  run "npm run start" to spin up a server on localhost:3000
+Provider.prototype.sendAsync = function() {
+return this.provider.send.apply(this.provider, arguments);
+};
 
-4.  navigate to localhost:3000 in your browser
+Instead of
+
+Provider.prototype.sendAsync = function() {
+return this.provider.sendAsync.apply(this.provider, arguments);
+};
+
+provider.sendAsync doesn't seem to work with this version of web3
+```
+
+Run ganache-cli in a different terminal
+
+```
+ganache-cli
+```
+
+Back in the project directory, compile and migrate contracts
+
+```
+truffle compile
+truffle migrate
+```
+
+Spin up the backend
+
+```
+npm run start
+```
+
+Navigate to localhost:3000 and enjoy!
+
+## Running the tests
+
+```
+truffle test
+```
