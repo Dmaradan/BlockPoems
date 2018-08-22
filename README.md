@@ -1,4 +1,4 @@
-# Project Title
+# BlockPoems
 
 This project allows users to write poems, view them, and donate to them on their
 local blockchain.
@@ -77,6 +77,8 @@ Spin up the backend
 ```
 npm run start
 ```
+
+Navigate to localhost:3000 and enjoy!
 
 ## Running the tests
 
