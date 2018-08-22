@@ -28,15 +28,19 @@ Setup:
     B) With your text editor, open /node_modules/truffle-contract/contract.js and
     make the following edit on line 22:
 
+
     Provider.prototype.sendAsync = function() {
     return this.provider.send.apply(this.provider, arguments);
     };
 
+
     Instead of
+
 
     Provider.prototype.sendAsync = function() {
     return this.provider.sendAsync.apply(this.provider, arguments);
     };
+
 
     For some reason, sendAsync is not working properly with this version of web3.
 
