@@ -4,6 +4,7 @@ import BlockPoemFactory from "../build/contracts/BlockPoemFactory.json";
 import BlockPoem from "../build/contracts/BlockPoem.json";
 import getWeb3 from "./utils/getWeb3";
 import contract from "truffle-contract";
+const Web3 = require("web3");
 
 import "./css/oswald.css";
 import "./css/open-sans.css";
@@ -53,10 +54,10 @@ class App extends Component {
       console.log(this.state.factory);
       console.log("hash: " + this.state.hash);
       console.log("type of hash: " + typeof this.state.hash);
-      console.log("type of account: " + typeof accounts[1]);
+      console.log("type of account: " + typeof accounts[0]);
 
-      await this.state.factory.createPoem(this.state.poem, accounts[1], {
-        from: accounts[1],
+      await this.state.factory.createPoem(this.state.poem, accounts[0], {
+        from: accounts[0],
         gas: 2200000
       });
 
@@ -106,6 +107,9 @@ class App extends Component {
     console.log("step 1");
     const contract = require("truffle-contract");
     const blockPoemFactory = contract(BlockPoemFactory);
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+    );
 
     blockPoemFactory.setProvider(this.state.web3.currentProvider);
 
@@ -127,6 +131,7 @@ class App extends Component {
 
         blockPoemFactoryInstance.getDeployedPoems().then(poems => {
           console.log("step 5");
+          console.log(accounts);
           this.setState({
             account: accounts[0],
             poems: poems,
@@ -160,6 +165,10 @@ class App extends Component {
   async donate(address) {
     const contract = require("truffle-contract");
     const blockPoem = contract(BlockPoem);
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+    );
+
     blockPoem.setProvider(this.state.web3.currentProvider);
     const selectedPoem = blockPoem.at(address);
 
@@ -168,13 +177,13 @@ class App extends Component {
     try {
       const accounts = await this.state.web3.eth.getAccounts();
       let successfulTx = await selectedPoem.donate({
-        from: accounts[1],
+        from: accounts[0],
         value: donationAmount,
         gas: 2200000
       });
 
       console.log("success: " + successfulTx.toString());
-      let balance = await this.state.web3.eth.getBalance(accounts[1]);
+      let balance = await this.state.web3.eth.getBalance(accounts[0]);
       console.log("balance: " + balance);
     } catch (err) {
       this.setState({ errorMessage: err.message });
@@ -185,6 +194,10 @@ class App extends Component {
   async showDetail(address) {
     const contract = require("truffle-contract");
     const blockPoem = contract(BlockPoem);
+    const web3 = new Web3(
+      new Web3.providers.HttpProvider("http://127.0.0.1:8545")
+    );
+
     blockPoem.setProvider(this.state.web3.currentProvider);
 
     const selectedPoem = blockPoem.at(address);
