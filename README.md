@@ -36,27 +36,10 @@ git clone https://github.com/Dmaradan/BlockPoems.git yourDirectory
 cd yourDirectory
 ```
 
-Install packages and make 1 edit
+Install packages
 
 ```
 npm install
-```
-
-```
-With your text editor, open /node_modules/truffle-contract/contract.js and
-make the following edit on lines 21-23:
-
-Provider.prototype.sendAsync = function() {
-return this.provider.send.apply(this.provider, arguments);
-};
-
-Instead of
-
-Provider.prototype.sendAsync = function() {
-return this.provider.sendAsync.apply(this.provider, arguments);
-};
-
-provider.sendAsync doesn't seem to work with this version of web3
 ```
 
 Run ganache-cli in a different terminal
